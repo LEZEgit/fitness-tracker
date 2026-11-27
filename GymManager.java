@@ -37,7 +37,7 @@ class GymManager {
         }
     }
 
-    private void handleExit() {
+    protected void handleExit() {
         System.out.println("\nLogging you out");
         // TODO: Feel like we need another Session class
         // I am thinking of one user per thread, we need to remove the user in Session object running at current thread.
@@ -59,6 +59,7 @@ class GymManager {
         onlineUsers.add(currentUser);
         System.out.println("Logged in successfully");
         
+        postLoginFlow();
     }
 
     private void handleRegisterMember() {
@@ -88,4 +89,20 @@ class GymManager {
         return;
     }
 
+
+    private void postLoginFlow() {
+        String LoginDashboard = """
+                                =====Member Dashboard=====
+                                Welcome %s !
+
+                                1. View Profile
+                                2. Update Fitness Goals
+                                3. Log Workout
+                                4. View Workout History
+                                5. View Progress Summary
+                                6. Logout
+                                """.formatted(currentUser.getName());
+       System.out.println(LoginDashboard);
+
+   }
 }

@@ -38,4 +38,11 @@ public class Member {
     public String getName() {
         return name;
     }
+    public FitnessGoal getGoal() {
+        return goal;
+    }
+
+    public void setGoal(FitnessGoal g) {
+        this.goal = g;
+    }
 }
