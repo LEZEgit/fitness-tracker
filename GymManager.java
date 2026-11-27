@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import db.*;
@@ -8,47 +9,63 @@ import models.Member;
 class GymManager {
     protected IdToMember i2U;
     protected MemberToWorkouts u2w;
+    protected ArrayList<Member> onlineUsers;
+    protected Member currentUser;
     Scanner inputScanner;
 
-    public GymManager(Scanner sc) {
+    public GymManager() {
         i2U = new IdToMember();
         u2w = new MemberToWorkouts();
         System.out.println("Initialising...");
-        inputScanner = sc;
+        inputScanner = new Scanner(System.in);
+        onlineUsers = new ArrayList<>();
     }
 
-    void handleAppEntry(int choice) {
+    String handleAppEntry(int choice) {
         switch (choice) {
             case 1:
                 handleRegisterMember();
-                break;
+                return "Reg";
             case 2:
                 handleLogin();
-                break;
+                return "Login";
             case 3:
                 handleExit();
-                break;
+                return "Exit";
             default:
-                break;
+                return "Default";
         }
     }
 
     private void handleExit() {
+        System.out.println("\nLogging you out");
+        // TODO: Feel like we need another Session class
+        // I am thinking of one user per thread, we need to remove the user in Session object running at current thread.
+        // Leaving it here for now, as closing the program will empty the onlineUsers finally
+        // onlineUsers.remove(onlineUsers.indexOf())
         System.out.println("Thanks for using Fittrack :)\nExiting...");
         return;
     }
 
     private void handleLogin() {
         System.out.println("=====Login=====");
-        System.out.print("Memeber Id: ");
+        System.out.print("Member Id: ");
+        int id = inputScanner.nextInt();
+        Member currentUser = i2U.getMember(id);
+        if (currentUser == null) {
+            System.out.println("\n\nMembership not found!");
+            return;
+        }
+        onlineUsers.add(currentUser);
+        System.out.println("Logged in successfully");
         
     }
 
     private void handleRegisterMember() {
         System.out.println("=====New Member Registration=====");
         System.out.print("name: ");
-        inputScanner.nextLine();
         String name = inputScanner.nextLine();
+        inputScanner.nextLine();
         System.out.print("age: ");
         int age = inputScanner.nextInt();
         System.out.print("weight_kg: ");
