@@ -51,7 +51,7 @@ class GymManager {
         System.out.println("=====Login=====");
         System.out.print("Member Id: ");
         int id = inputScanner.nextInt();
-        Member currentUser = i2U.getMember(id);
+        currentUser = i2U.getMember(id);
         if (currentUser == null) {
             System.out.println("\n\nMembership not found!");
             return;
